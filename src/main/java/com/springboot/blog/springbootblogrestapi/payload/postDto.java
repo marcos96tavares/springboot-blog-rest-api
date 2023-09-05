@@ -1,9 +1,11 @@
 package com.springboot.blog.springbootblogrestapi.payload;
 
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+
 public class postDto {
 
     private long id;
