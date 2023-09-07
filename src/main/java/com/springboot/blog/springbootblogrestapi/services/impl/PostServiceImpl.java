@@ -1,12 +1,16 @@
 package com.springboot.blog.springbootblogrestapi.services.impl;
 
 import com.springboot.blog.springbootblogrestapi.entity.Post;
+import com.springboot.blog.springbootblogrestapi.exception.ResourceNotFoundException;
 import com.springboot.blog.springbootblogrestapi.payload.postDto;
 import com.springboot.blog.springbootblogrestapi.repository.PostRepository;
 import com.springboot.blog.springbootblogrestapi.services.PostService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -35,12 +39,36 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<postDto> getAllPost() {
-        return null;
+
+        List<Post> posts = postRepository.findAll();
+        return  posts.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
+    @Override
+    public postDto updatePost(postDto postDto, long id) {
+
+        Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("post", "id", id));
+
+        post.setTitle(postDto.getTitle());
+        post.setDescription(postDto.getDescription());
+        post.setContent(postDto.getContent());
+
+        Post upDatePost = postRepository.save(post);
+
+        return mapToDto(upDatePost);
 
 
 
+    }
+
+    @Override
+    public void deletePostById(long id) {
+
+        Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("post", "id", id));
+
+        postRepository.delete(post);
+
+            }
 
 
     // create new postDto from post
