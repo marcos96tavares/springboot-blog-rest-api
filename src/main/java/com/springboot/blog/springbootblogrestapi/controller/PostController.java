@@ -49,4 +49,13 @@ public class PostController {
     }
 
 
+    @GetMapping("/titles/{title}")
+    public ResponseEntity<postDto> getpostbytitle(@RequestBody postDto postDto,
+                                                  @PathVariable (name = "title") String title){
+
+        postDto postDto1 = postService.findPostBytitle(title);
+        return new ResponseEntity<>(postDto1, HttpStatus.OK);
+    }
+
+
 }

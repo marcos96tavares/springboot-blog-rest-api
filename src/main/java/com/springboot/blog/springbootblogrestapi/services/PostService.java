@@ -14,4 +14,6 @@ public interface PostService {
 
     void deletePostById(long id);
 
+    postDto findPostBytitle(String title);
+
 }

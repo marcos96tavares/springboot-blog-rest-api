@@ -70,6 +70,16 @@ public class PostServiceImpl implements PostService {
 
             }
 
+    @Override
+    public postDto findPostBytitle(String title) {
+
+        Post newPost = postRepository.findByTitle(title);
+
+        return mapToDto(newPost);
+
+
+    }
+
 
     // create new postDto from post
     private postDto mapToDto(Post post){
@@ -80,6 +90,7 @@ public class PostServiceImpl implements PostService {
         postDto.setTitle(post.getTitle());
         postDto.setContent(post.getContent());
         postDto.setDescription(post.getDescription());
+
 
         return postDto;
 
